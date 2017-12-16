@@ -1,14 +1,13 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import isEmail from 'validator/lib/isEmail'
+import React from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import Validator from "validator";
 
-class SignupForm extends Component{
-    state ={
+class LoginForm extends React.Component {
+    state = {
         data: {
-            email : "",
-            username : "",
-            password : ""
+            email: "",
+            password: ""
         },
         errors: {}
     };
@@ -26,20 +25,16 @@ class SignupForm extends Component{
             this.setState({ loading: true });
             this.props
                 .submit(this.state.data)
-                .catch(err => this.setState({
-                        errors: err.response.data.errors,
-                        loading: false })
+                .catch(err =>
+                    this.setState({ errors: err.response.data.errors, loading: false })
                 );
         }
     };
 
     validate = data => {
         const errors = {};
-
-        if (!isEmail(data.email)) errors.email = "Invalid email";
+        if (!Validator.isEmail(data.email)) errors.email = "Invalid email";
         if (!data.password) errors.password = "Can't be blank";
-        if (!data.username) errors.username = "Can't be blank";
-
         return errors;
     };
 
@@ -48,6 +43,10 @@ class SignupForm extends Component{
 
         return (
             <form onSubmit={this.onSubmit}>
+                {errors.global && (
+                    <div className="alert alert-danger">{errors.global}</div>
+                )}
+
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
@@ -61,21 +60,6 @@ class SignupForm extends Component{
                         }
                     />
                     <div className="invalid-feedback">{errors.email}</div>
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        value={data.username}
-                        onChange={this.onChange}
-                        className={
-                            errors.username ? "form-control is-invalid" : "form-control"
-                        }
-                    />
-                    <div className="invalid-feedback">{errors.username}</div>
                 </div>
 
                 <div className="form-group">
@@ -94,19 +78,18 @@ class SignupForm extends Component{
                 </div>
 
                 <button type="submit" className="btn btn-primary btn-block">
-                    Sign Up
+                    Login
                 </button>
 
                 <small className="form-text text-center">
-                    or <Link to="/login">LOGIN</Link> if you have an account
+                    <Link to="/signup">Sign up</Link> if you don't have an account<br />
+                    <Link to="/forgot_password">Forgot Password?</Link>
                 </small>
             </form>
         );
     }
 }
-
-SignupForm.propTypes = {
+LoginForm.propTypes = {
     submit: PropTypes.func.isRequired
 };
-
-export default SignupForm;
+export default LoginForm;
