@@ -6,12 +6,14 @@ import HomePage from './components/pages/HomePage';
 import SignupPage from './components/pages/SignupPage'
 import LoginPage from './components/pages/LoginPage'
 import DashboardPage from './components/pages/DashboardPage'
+import ConfirmationPage from './components/pages/ConfirmationPage'
 import GuestRoute from './components/routes/GuestRoute'
 import UserRoute from './components/routes/UserRoute'
 
 const App = ({ location, isAuthenticated }) => (
     <div>
         <Route location={location} path="/" exact component={HomePage}/>
+        <Route location={location} path="/confirmation/:token" exact component={ConfirmationPage} />
         <GuestRoute location={location} path="/signup" exact component={SignupPage} />
         <GuestRoute location={location} path="/login" exact component={LoginPage} />
         <UserRoute location={location} path="/dashboard" exact component={DashboardPage} />
