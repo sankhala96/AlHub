@@ -6,24 +6,20 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
 import thunk from 'redux-thunk'
-import decode from 'jwt-decode'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from './rootReducer'
 import registerServiceWorker from './registerServiceWorker';
-import {userLoggedIn} from "./actions/auth";
+import setAuthorizationHeader from './utils/setAuthorizationHeader'
+import {fetchCurrentUser, userFetched} from "./actions/users";
 
 const store = createStore(rootReducer,
     composeWithDevTools(applyMiddleware(thunk)));
 
 if (localStorage.alhubJWT) {
-    const payload = decode(localStorage.alhubJWT);
-    const user = {
-        token: localStorage.alhubJWT,
-        email: payload.email,
-        confirmed: payload.confirmed
-    };
-    // setAuthorizationHeader(localStorage.bookwormJWT);
-    store.dispatch(userLoggedIn(user));
+    setAuthorizationHeader(localStorage.alhubJWT);
+    store.dispatch(fetchCurrentUser());
+}else {
+    store.dispatch(userFetched({}));
 }
 
 ReactDOM.render(

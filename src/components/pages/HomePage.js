@@ -48,6 +48,21 @@ const HomePage = () => (
                         JOIN THE PARTY!
                     </Link>
                 </div>
+                <br/>
+                <div className="text-center">Or</div>
+                <br/>
+                <div className="text-center">
+                    <Link
+                        to="/login"
+                        className="btn btn-primary btn-lg"
+                        style={{
+                            backgroundColor: "#9c0b0e",
+                            border: "none"
+                        }}
+                    >
+                        Login
+                    </Link>
+                </div>
             </Col>
 
         </Row>

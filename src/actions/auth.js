@@ -13,7 +13,8 @@ export const userLoggedOut = () =>({
 export const login = credentials => dispatch =>
     api.user.login(credentials).then(user => {
         localStorage.alhubJWT = user.token;
-        dispatch(userLoggedIn(user))});
+        dispatch(userLoggedIn({...user, loaded: true}))
+    });
 
 export const logout = () => dispatch =>
 {
